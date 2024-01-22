@@ -10,6 +10,6 @@ Inspired by **Kurzgesagt – In a Nutshell**
 
 Solved Error from specific subjects.
 
-.
-.
+.  
+.  
 ... to be continued...
