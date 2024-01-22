@@ -111,8 +111,7 @@ $$n = \frac{n_1 + n_2 + n_3 + n_4 + n_5 + n_6}{\lVert n_1 + n_2 + n_3 + n_4 + n_
 
 ### 4.2.1 2D Affine Transform with Homogeneous Coordinates
 
-- Scaling ($S$):
-
+- Scaling ($S$):  
 $$S = \begin{pmatrix}
 s_{x} & 0 & 0 \\
 0 & s_{y} & 0 \\
