@@ -89,27 +89,27 @@ OpenGL로 삐까뻔쩍한 것들을 만들기 전에, 우리가 제일 먼저 �
 - **CMake**는 사전 정의된 Cmake 스크립트를 기반으로 사용자가 사용하는 IDE/빌드 시스템(e.g. VS, Code::Blocks, Eclipse)에 맞춰 프로젝트/솔루션 파일을 생성할 수 있도록 도와주는 도구이다. 
 - **CMake**는 여기서 다운 받을 수 있다. ([Download CMake](https://cmake.org/download/)) 필자는 OS에 맞춰 **Windows $\times$ 64ZIP**에 해당하는 파일을 다운 받았다.
 - Cmake을 다운 했다면 폴더를 압축해제 한 후 bin 폴더 안에 있는 `cmake-gui.exe`를 실행시켜준다.
-- `Where is the source code`에는 `GLFW`경로를 입력하고, `Where to build the binaries`에는 `GLFW경로/buid`를 입력한다.![Screenshot](./img/OpenGL_Cmake.png?raw=ture?raw=true)
-- 하단의 `Configure`을 클릭하여 `build`디렉토리 생성 메세지가 나오면 `Yes`를 누르고, 아래 창이 뜨면 본인이 사용하고 있는 IDE 버전을 정확히 확인하고 `Finish`를 누른다. (본인은 Visual Studio 17 2022를 선택했다.)![](./img/OpenGL_Cmake_1.png?raw=ture)
+- `Where is the source code`에는 `GLFW`경로를 입력하고, `Where to build the binaries`에는 `GLFW경로/buid`를 입력한다.![Screenshot](./img/OpenGL_Cmake.png?raw=true)
+- 하단의 `Configure`을 클릭하여 `build`디렉토리 생성 메세지가 나오면 `Yes`를 누르고, 아래 창이 뜨면 본인이 사용하고 있는 IDE 버전을 정확히 확인하고 `Finish`를 누른다. (본인은 Visual Studio 17 2022를 선택했다.)![](./img/OpenGL_Cmake_1.png?raw=true)
 - 다시 `Configure`을 누르고 컴파일이 무사히 완료되면 `Generate`를 눌러 아까 만든 `build`폴더에 프로젝트 파일을 생성한다.
-- 이제 `build`폴더에 들어가면 `GLFW.sln`파일이 무사히 생성된 것을 확인할 수 있다.<br>![](./img/OpenGL_Cmake_2.png?raw=ture)
+- 이제 `build`폴더에 들어가면 `GLFW.sln`파일이 무사히 생성된 것을 확인할 수 있다.<br>![](./img/OpenGL_Cmake_2.png?raw=true)
 
 #### 2.2.2. Compile
 
-- `GLWL.sln`파일을 Visual Studio로 열고, `Ctrl + F5`를 누른다.![](./img/OpenGL_Cmake_3.png?raw=ture)
-- 이렇게 파일을 실행시키고 나면, `GLFW 폴더/build/src/Debug`에 `glfw.lib`라이브러리 파일이 생긴 것을 확인할 수 있다.<br>![](./img/OpenGL_Cmake_4.png?raw=ture)
+- `GLWL.sln`파일을 Visual Studio로 열고, `Ctrl + F5`를 누른다.![](./img/OpenGL_Cmake_3.png?raw=true)
+- 이렇게 파일을 실행시키고 나면, `GLFW 폴더/build/src/Debug`에 `glfw.lib`라이브러리 파일이 생긴 것을 확인할 수 있다.<br>![](./img/OpenGL_Cmake_4.png?raw=true)
 - 여기까지 라이브러리 파일을 만드는 데에는 성공했다. 이제 우리는 OpenGL 프로그램에 쓸 GLFW 라이브러리의 파일과 include 파일이 어디 있는지만 IDE에게 확인시켜주면 된다.
-- 컴퓨터의 적당한 곳에(예를 들어 로컬 폴더 C:) `OpenGL`폴더를 만들고 `lib`폴더도 만든 뒤 안에 `glfw.lib`파일을 넣고 `include`폴더를 복사 붙여넣기 해주면 OpenGL 프로젝트를 시작할 준비가 끝난 것이다.<br>![](./img/OpenGL_Compile_1.png?raw=ture)
+- 컴퓨터의 적당한 곳에(예를 들어 로컬 폴더 C:) `OpenGL`폴더를 만들고 `lib`폴더도 만든 뒤 안에 `glfw.lib`파일을 넣고 `include`폴더를 복사 붙여넣기 해주면 OpenGL 프로젝트를 시작할 준비가 끝난 것이다.<br>![](./img/OpenGL_Compile_1.png?raw=true)
 
 ### 2.3. First Project
 
-- 이제 Visual Studio를 열고, 언어로 C++을 선택하여 새 프로젝트를 생성하자. 우리는 모든 것을 64-bit 기반으로 할 것이기 때문에 디버그 설정이 $\times$ 86로 설정이 되어있다면 $\times$ 64로 바꿔주자.<br>![](./img/OpenGL_Compile.png?raw=ture)
+- 이제 Visual Studio를 열고, 언어로 C++을 선택하여 새 프로젝트를 생성하자. 우리는 모든 것을 64-bit 기반으로 할 것이기 때문에 디버그 설정이 $\times$ 86로 설정이 되어있다면 $\times$ 64로 바꿔주자.<br>![](./img/OpenGL_Compile.png?raw=true)
 
 ### 2.4. Linking
 
 - 위에서 우리가 만든 프로젝트가 `GLFW`를 사용하게 만들기 위해서 우리는 프로젝트와 라이브러리를 `link`해야한다.
-- 프로젝트 이름에서 `Alt + Enter` (속성)에 들어가 `Include Directories`를 다음과 같이 편집한다. 아까 만든 OpenGL 폴더의 `lib`폴더와 `include`폴더의 경로를 가져와 각각 넣어준다.<br>![](./img/OpenGL_Linking.png?raw=ture)
-- 안 끝났다.... `링커` > `입력`에 들어가 추가 종속성에 우리가 쓸 라이브러리의 이름인 `glfw3.lib`을 써주자....<br>`opengl32.lib`은 왜 쓰냐? 당신이 Window 사용자라면 Microsoft SDK에 포함돼서 Visual Studio를 깔 때 같이 딸려오는 라이브러리이기 때문에 추가해주는 것이다.![](./img/OpenGL_Linking_1.png?raw=ture)
+- 프로젝트 이름에서 `Alt + Enter` (속성)에 들어가 `Include Directories`를 다음과 같이 편집한다. 아까 만든 OpenGL 폴더의 `lib`폴더와 `include`폴더의 경로를 가져와 각각 넣어준다.<br>![](./img/OpenGL_Linking.png?raw=true)
+- 안 끝났다.... `링커` > `입력`에 들어가 추가 종속성에 우리가 쓸 라이브러리의 이름인 `glfw3.lib`을 써주자....<br>`opengl32.lib`은 왜 쓰냐? 당신이 Window 사용자라면 Microsoft SDK에 포함돼서 Visual Studio를 깔 때 같이 딸려오는 라이브러리이기 때문에 추가해주는 것이다.![](./img/OpenGL_Linking_1.png?raw=true)
 - 당신이 Linux 사용자라면 `-lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl`등을 컴파일 할 때 링커 세팅에 추가해주면 된다.
 - GLFW 라이브러리의 세팅이 끝났다면, 우리는 코드에 다음과 같이 헤더 파일을 추가할 수 있다.
 ```cpp
@@ -138,8 +138,8 @@ unsigned int buffer; glGenBuffers(1, &buffer);
 
 - **GLAD**를 세팅하는 방법은 우리가 흔히 알고 있는 오픈 소스 라이브러리의 세팅 방법과 살짝 다른 점이 있다.
 - **GLAD**는 사이트를 이용하여 우리가 어떤 버전의 OpenGL을 쓸 건지 입력하면 거기에 맞춰서 모든 관련된 함수를 다운 받을 수 있게 해준다.
-- 일단 GLAD 사이트에 들어가자. ([glad.dav1d.de](https://glad.dav1d.de/)) 그다음 옵션을 다음과 같이 설정하고 Generate를 눌러 `glad.zip`파일을 다운 받아준다.![](./img/OpenGL_GLAD.png?raw=ture)
-- `glad.zip`폴더를 압축해제 하고, `include`에 들어있는 `glad`와 `KHR`파일을 복사한 뒤 앞서 만들었던 `OpenGL`폴더의 `include`폴더에 붙여넣기 한다.<br>![](./img/OpenGL_GLAD_1.png?raw=ture)
+- 일단 GLAD 사이트에 들어가자. ([glad.dav1d.de](https://glad.dav1d.de/)) 그다음 옵션을 다음과 같이 설정하고 Generate를 눌러 `glad.zip`파일을 다운 받아준다.![](./img/OpenGL_GLAD.png?raw=true)
+- `glad.zip`폴더를 압축해제 하고, `include`에 들어있는 `glad`와 `KHR`파일을 복사한 뒤 앞서 만들었던 `OpenGL`폴더의 `include`폴더에 붙여넣기 한다.<br>![](./img/OpenGL_GLAD_1.png?raw=true)
 - `src`폴더에 들어있는 `glad.c`파일은 프로젝트 폴더에 넣어준다.
 - GLAD의 세팅이 끝났다면, 우리는 코드에 다음과 같이 헤더 파일을 추가할 수 있다.
 ```cpp
