@@ -157,7 +157,7 @@ unsigned int buffer; glGenBuffers(1, &buffer);
 #include <iostream>
 ```
 - GLFW를 포함하기 전에 GLAD를 포함해야 한다는 것을 잊지 말자.
-- GLFW 뿐만 아니라 OpenGL이 필요한 다른 헤더 파일을 추가할 때도 마찬가지다.
+- GLFW 뿐만 아니라 OpenGL이 필요한 다른 헤더 파일을 추가할 때도 마찬가지다.  
 
 ```cpp
 int main()
@@ -181,7 +181,7 @@ int main()
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	라는 코드를 추가해야 초기화 작업이 완료된다.
 -  OpenGL 버전 확인하는 방법
-	[Check OpenGL Version](https://kyoungwhankim.github.io/ko/blog/opengl_version/)
+	[Check OpenGL Version](https://kyoungwhankim.github.io/ko/blog/opengl_version/)  
 
 ```cpp
 GLFWwindow* window = glfwCreateWindow(800, 600, "HelloWindow", NULL, NULL);
@@ -196,7 +196,7 @@ glfwMakeContextCurrent(window);
 - **glfwCreateWindow(윈도우 창 가로, 윈도우 창 세로, 창 이름, NULL, NULL);**
 	마지막 두 인수는 무시해도 된다.
 	창이 제대로 만들어졌는지 확인하고, 다음 작업으로 넘어간다.
-- **glfwMakeContextCurrent**로 윈도우의 컨텍스트를 현재 스레드의 메인 컨텍스트로 만들라고 명령한다.
+- **glfwMakeContextCurrent**로 윈도우의 컨텍스트를 현재 스레드의 메인 컨텍스트로 만들라고 명령한다.  
 
 ### 3.1. GLAD
 
@@ -209,7 +209,7 @@ if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 ```
 - 앞선 챕터에서 말한대로, GLAD는 OpenGL의 함수를 로드하는 데 사용된다.
 - 따라서 어느 OpenGL 함수를 부르기 전에 먼저 **glfwGetProcAddress**를 사용하여 현재 컨텍스트의 함수 포인터를 가져와 초기화 한다.
-- 이렇게 하면 사용자의 OS에 맞는 OpenGL의 함수 포인터를 가져올 수 있다.
+- 이렇게 하면 사용자의 OS에 맞는 OpenGL의 함수 포인터를 가져올 수 있다.  
 
 ### 3.2. Viewport
 
@@ -233,12 +233,11 @@ glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 -  **Retina Displays**
 	Retina 디스플레이는 고해상도 디스플레이로, 일반적인 디스플레이보다 픽셀 밀도가 높다.
 	화면에 표시되는 픽셀 수가 일반 디스플레이보다 많으므로, 윈도우 크기를 나타내는 너비와 높이의 크기가 더 큰 값으로 설정된다.
-	
 - **glfwSetFramebufferSizeCallback** 함수를 사용하면 창의 크기가 변경될 때마다 또는 창이 처음에 표시될 때마다 특정 작업을 수행하는 콜백 함수를 등록할 수 있으며, Retina 디스플레이에서는 초기 입력 값보다 큰 값이 전달될 수 있다는 점을 고려해야 한다.
 -  **Callback Functions**
 	우리가 만든 함수로 접근하도록 하는 콜백 함수가 많이 있다.
 	예를 들어, 조이스틱 입력값 변화 콜백 함수라던가, 프로세스 에서 메세지 콜백 함수 같은 것들이 있다.
-	우리는 콜백 함수를 창을 만든 이후 ~ render loop 초기화 까지 쓸 수 있다.
+	우리는 콜백 함수를 창을 만든 이후 ~ render loop 초기화 까지 쓸 수 있다.  
 
 ### 3.3. Ready your engines
 
@@ -274,7 +273,7 @@ while (!glfwWindowShouldClose(window))
 	- **Color Buffer**
 		OpenGL에서 렌더링 작업 결과를 저장하는 데 사용되는 메모리 영역이다.
 		GLFW 창의 각 픽셀에 대한 색상 값을 저장하는 2D 버퍼이다.
-	이렇게 두 개의 버퍼를 사용하여 flickering을 방지한다.
+	이렇게 두 개의 버퍼를 사용하여 flickering을 방지한다.  
 
 ### 3.4. One last thing
 
@@ -282,4 +281,4 @@ while (!glfwWindowShouldClose(window))
 glfwTerminate();
 ```
 - Render loop을 종료하고 난 뒤 GLFW에 할당된 모든 요소를 clean한다.
-	main 함수의 마지막에 return 0;와 함꼐 삽입하면 된다.
+	main 함수의 마지막에 return 0;와 함꼐 삽입하면 된다.  
