@@ -148,4 +148,155 @@ unsigned int buffer; glGenBuffers(1, &buffer);
 
 ## 3. Hello Window
 
-- 
+- 이제 부터는 코드 블록을 예시로 들며 설명하는 형태로 OpenGL에 대해서 설명하겠다.
+- 코드 전문이 궁금하다면 src/OpenGL/ 디렉토리를 참고하자.
+
+```cpp
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+#include <iostream>
+```
+	GLFW를 포함하기 전에 GLAD를 포함해야 한다는 것을 잊지 말자.
+	GLFW 뿐만 아니라 OpenGL이 필요한 다른 헤더 파일을 추가할 때도 마찬가지다.
+
+```cpp
+int main()
+{
+	glfwInit();
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+```
+	glfwInit을 통해서 GLFW를 initiate한다.
+	
+	이 다음 우리는 glfwWindowHint를 통해서 GLFW를 설정할 수 있다.
+	glfwWindowHint(설정할 옵션(여러 개의 설정들이 enum화 되어있다.), 옵션의 값 설정)
+		GLFW_CONTEXT_VERSION_MAJOR: 사용할 OpenGL 컨텍스트의 주 버전
+		GLFW_CONTEXT_VERSION_MINOR: 사용할 OpenGL 컨텍스트의 부 버전
+	예를 들어 OpenGL 3.3은 주 버전이 3이고 부 버전이 3인 버전이다.
+	이 코드를 사용하면 프로그램은 OpenGL 3.3 Core Profile을 사용하는 컨텍스트를 생성하려한다.
+	OpenGL 기능이나 특성을 사용하기 위해 필요한 최소한의 버전을 지정하는 것이다.
+	이렇게 하면 사용자가 제대로된 OpenGL 버전을 갖고 있지 않으면 GLFW가 실행되지 않는다.
+	
+	CORE_PROFILE을 사용한다는 것은 불필요한 하위 호환 기능 없이
+	OpenGL 기능의 더 작은 서브셋에 엑세스 한다는 것을 의미한다.
+	* Mac OS에서는
+		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+		라는 코드를 추가해야 초기화 작업이 완료된다.
+	
+	+ OpenGL 버전 확인하는 방법
+	https://kyoungwhankim.github.io/ko/blog/opengl_version/
+
+```cpp
+GLFWwindow* window = glfwCreateWindow(800, 600, "HelloWindow", NULL, NULL);
+if (window == NULL)
+{
+	std::cout << "Failde to create GLFW window" << std::endl;
+	glfwTerminate();
+	return -1;
+}
+glfwMakeContextCurrent(window);
+```
+	glfwCreateWindow(윈도우 창 가로, 윈도우 창 세로, 창 이름, NULL, NULL);
+	마지막 두 인수는 무시해도 된다.
+	창이 제대로 만들어졌는지 확인하고, 다음 작업으로 넘어간다.
+	
+	glfwMakeContextCurrent로 윈도우의 컨텍스트를 현재 스레드의 메인 컨텍스트로 만들라고 명령한다.
+
+### 3.1. GLAD
+
+```cpp
+if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+{
+	std::cout << "Failed to initialize GLAD" << std::endl;
+	return -1;
+}
+```
+	앞선 챕터에서 말한대로, GLAD는 OpenGL의 함수를 로드하는 데 사용된다.
+	따라서 어느 OpenGL 함수를 부르기 전에 먼저 glfwGetProcAddress를 사용하여
+	현재 컨텍스트의 함수 포인터를 가져와 초기화 한다.
+	이렇게 하면 사용자의 OS에 맞는 OpenGL의 함수 포인터를 가져올 수 있다.
+
+### 3.2. Viewport
+
+```cpp
+glViewport(0, 0, 800, 600);
+glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+```
+	렌더링을 시작하기 전에 마지막으로 해야할 것이 있다.
+	렌더링 할 차원, 즉 dimension을 glViewport 함수를 이용해 세팅하는 건데,
+	데이터와 좌표를 창에 따라 어떻게 표시할 건지 정의할 수 있다.
+	
+	* glViewport 함수를 이용한 2D 좌표 -> 화면 좌표 변환
+		glViewport 함수는 OpenGL에게 렌더링 결과를 표시할 영역을 알려준다.
+		이 함수는 뷰포트를 설정하며, 뷰표트는 윈도우의 일부분으로 생각할 수 있다.
+	
+		OpenGL은 일반적으로 정규화된 디바이스 좌표(Normalized Device Coordinates, NDC)를 사용하여 작업한다.
+		NDC 좌표는 X, Y, Z 축 각각 -1에서 1까지의 범위를 갖는다.
+		예를 들어, (-0.5, 0.5)의 좌표가 있다고 치면, 화면에서는 (200, 450)으로 매핑 된다.
+		예를 들어, X 좌표가 -1일 때, 이는 화면의 가장 왼쪽에 해당하며, X 좌표가 1일 때, 이는 화면의 가장 오른쪽에 해당한다.
+		Y 좌표도 비슷한 방식으로 매핑된다.
+	
+	아무튼, 뷰 포트를 설정하고 나서, 우리가 창의 크기를 바꿀 수도 있기 때문에
+	framebuffer_size_callback를 콜백 함수를 이용하여 창 사이즈가 바뀔 때 뷰포트도 바뀔 수 있도록 해준다.
+		framebuffer_size_callback(윈도우 변수, 너비, 높이);
+	
+	* Retina Displays
+		Retina 디스플레이는 고해상도 디스플레이로, 일반적인 디스플레이보다 픽셀 밀도가 높다.
+		화면에 표시되는 픽셀 수가 일반 디스플레이보다 많으므로, 윈도우 크기를 나타내는 너비와 높이의 크기가 더 큰 값으로 설정된다.
+	
+	glfwSetFramebufferSizeCallback  함수를 사용하면 창의 크기가 변경될 때마다 또는 창이 처음에 표시될 때마다
+	특정 작업을 수행하는 콜백 함수를 등록할 수 있으며,
+	Retina 디스플레이에서는 초기 입력 값보다 큰 값이 전달될 수 있다는 점을 고려해야 한다.
+	
+	* Callback Functions
+		우리가 만든 함수로 접근하도록 하는 콜백 함수가 많이 있다.
+		예를 들어, 조이스틱 입력값 변화 콜백 함수라던가, 프로세스 에서 메세지 콜백 함수 같은 것들이 있다.
+		우리는 콜백 함수를 창을 만든 이후 ~ render loop 초기화 까지 쓸 수 있다.
+
+### 3.3. Ready your engines
+
+```cpp
+while (!glfwWindowShouldClose(window))
+{
+	processInput(window);
+
+	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	glfwSwapBuffers(window);
+	glfwPollEvents();
+}
+```
+	* Render Loop
+		창이 우리가 프로그램을 종료할 때 까지 연속적인 이미지를 계속 표시할 수 있도록
+		우리는 while loop가 필요한데, 이를 render loop 이라고 한다.
+		Render loop은 우리가 GLFW에게 멈추라고 말할 때 까지 계속 돌아간다.
+	
+	glfwWindowShouldClose
+		GLFW가 중지 됐는지 체크하는 함수이다.
+	glfwPollEvents
+		이벤트 트리거 함수이다. (키보드 입려그 마우스 움직임 등)
+		윈도우 상태를 업데이트 하고, 콜백 방식으로 사용할 수 있는 기능을 호출한다.
+	glfwSwapBuffers
+		이 함수는 더블 버퍼링(Double Buffering)을 사용하는 OpenGL 애플리케이션에서 사용된다.
+		현재 화면에 표시되는 프론트 버퍼와 렌더링을 위해 사용되는 백 버퍼를 교체한다.
+		렌더링 작업이 모두 완료된 후, 이 함수를 호출하면
+		프론트 버퍼와 백 버퍼가 교체되어 렌더링 결과가 실제 화면에 표시된다.
+		* Front Buffer & Back Buffer
+			Front Buffer: 화면에 실제로 표시되는 버퍼로, 사용자가 직접 보는 화면의 픽셀 데이터가 저장되어 있다.
+			Back Buffer: 렌더링 작업을 수행하는 버퍼로, 화면에 직접 나타나지 않는다.
+		* Double Buffering
+			화면에 출력되기 전에 렌더링 작업을 모두 완료한 후에 그림을 한 번에 표시하는 기술이다.
+		* Color Buffer
+			OpenGL에서 렌더링 작업 결과를 저장하는 데 사용되는 메모리 영역이다.
+			GLFW 창의 각 픽셀에 대한 색상 값을 저장하는 2D 버퍼이다.
+		이렇게 두 개의 버퍼를 사용하여 flickering을 방지한다.
+
+### 3.4. One last thing
+
+```cpp
+glfwTerminate();
+```
+	Render loop을 종료하고 난 뒤 GLFW에 할당된 모든 요소를 clean한다.
+	main 함수의 마지막에 return 0;와 함꼐 삽입하면 된다.
