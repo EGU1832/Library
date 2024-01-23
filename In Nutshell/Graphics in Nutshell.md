@@ -50,7 +50,7 @@
 
 ### 3.3.1 Triangle Normal
 
-- 삼각형 < $p_1$, $p_2$, $p_3$ >에서 $v_1$은 $p_1$과 $p_2$를 연결한 벡터이고, $v_2$은 $p_1$과 $p_3$를 연결한 벡터일 때, Triangle normal의 식은 다음과 같다.
+- 삼각형 $\langle p_1, p_2, p_3\rangle$에서 $v_1$은 $p_1$과 $p_2$를 연결한 벡터이고, $v_2$은 $p_1$과 $p_3$를 연결한 벡터일 때, Triangle normal의 식은 다음과 같다.
 $$n = \frac{v_1 \times v_2}{\lVert v_1 \times v_2 \rVert}$$
 - 보통의 경우 $p_1$, $p_2$, $p_3$는 CCW(counter-clockwise) 순으로 나열되어 있다. 즉, normal이 다면체의 바깥을 향한다.
 - Polyhedron(다면체):
