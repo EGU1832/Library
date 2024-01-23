@@ -31,8 +31,8 @@
 - 메시(mesh):
 	폴리곤이 모여서 하나의 3차원 물체를 만들게 되는데 이것을 메시라고 한다. 즉, 메시는 폴리곤이 모여서 만들어진 3차원 공간상의 객체(object)이다.
 - LOD:
-	Polygon mesh의 정점의 개수
-	Reolustion, level of detail 라고도 표현한다.
+	Polygon mesh의 정점의 개수  
+	Resolution, level of detail 라고도 표현한다.
 
 ## 3.2 Vertex Representation
 
@@ -40,7 +40,7 @@
 	정점은 enum화 된 배열의 형태로 메모리에 저장된다.
 	정점을 메모리에 저장하는 방식에는 두 가지가 있다.
 
-### 3.2.1 Non-indexed Represantation
+### 3.2.1 Non-indexed Representation
 
 ### 3.2.2 Indexed Representation
 ## 3.3 Surface Normals
@@ -91,7 +91,7 @@ $$n = \frac{n_1 + n_2 + n_3 + n_4 + n_5 + n_6}{\lVert n_1 + n_2 + n_3 + n_4 + n_
 | 중복 허용 | X | O |
 | 개수 | 정점의 개수 | polygon의 개수 $\times$ polygon의 꼭짓점의 개수 |
 
-# 4. Spaces and Trasforms
+# 4. Spaces and Transforms
 ## 4.1 Homogeneous Coordinates
 
 - Homogeneous coordinates(동차 좌표)는 컴퓨터 그래픽스에서 점, 벡터 및 변환을 표현하는 데 사용되는 좌표 시스템으로, 우리가 흔히 사용하는 카테시안 좌표 시스템과는 차이가 있다.
@@ -190,8 +190,8 @@ L_{31} & L_{32} & L_{33} & t_{34} \\
 \end{pmatrix}  $$
 - Affine Matrix ($L$):
 	$L$은 $T$를 제외한 모든 선형 변환($S$, $R$ 등)이 합쳐진 것, 즉 combined linear transform을 뜻한다.
-- Tanslation Vector ($t$):
-	$t$는 선형 변환이 적용 된 $T$ 변형, 즉 conbined translation을 뜻한다.
+- Translation Vector ($t$):
+	$t$는 선형 변환이 적용 된 $T$ 변형, 즉 combined translation을 뜻한다.
  - 2D affine transform에서의 $[L|t]$:
 	곱해지는 아핀 행렬의 개수나 종류에 상관 없이, 우리는 $[L|t]$라는 하나의 행렬을 얻는다.
 	$[L|t]$가 점 $p$를 옮기는 방식은 $Lp+t$로 표현될 수 있다.
